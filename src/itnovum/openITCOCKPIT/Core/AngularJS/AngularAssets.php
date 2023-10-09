@@ -115,6 +115,18 @@ class AngularAssets implements AngularAssetsInterface {
         'node_modules/jsoneditor/dist/jsoneditor.min.js'
     ];
 
+    // <script type="module" src="foobar.js"></script>
+    private $jsModules = [
+        'node_modules/codemirror/dist/index.js',
+        'node_modules/@codemirror/autocomplete/dist/index.js',
+        'node_modules/@codemirror/commands/dist/index.js',
+        'node_modules/@codemirror/language/dist/index.js',
+        'node_modules/@codemirror/lint/dist/index.js',
+        'node_modules/@codemirror/search/dist/index.js',
+        'node_modules/@codemirror/state/dist/index.js',
+        'node_modules/@codemirror/view/dist/index.js'
+    ];
+
     /**
      * @var array
      * Gets added before self::cssFiles in the HTML document
@@ -200,6 +212,13 @@ class AngularAssets implements AngularAssetsInterface {
             }
         }
         return $jsFiles;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getJsModules() {
+        return $this->jsModules;
     }
 
     /**
@@ -315,6 +334,24 @@ class AngularAssets implements AngularAssetsInterface {
      */
     public function getJsFilesOnDisk() {
         // TODO: Implement getJsFilesOnDisk() method.
+    }
+
+    /**
+     * @return array
+     */
+    public function getNodeJsModules() {
+        $jsModuleFiles = [];
+        foreach ($this->jsModules as $jsModuleFile) {
+            if (substr($jsModuleFile, 0, 1) === '/') {
+                //Remove leading / from path
+                $jsModuleFile = substr($jsModuleFile, 1);
+            }
+
+            if (substr($jsModuleFile, 0, 12) === 'node_modules') {
+                $jsModuleFiles[] = $jsModuleFile;
+            }
+        }
+        return $jsModuleFiles;
     }
 
     public function getPluginNgStateJsFiles() {

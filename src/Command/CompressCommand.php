@@ -220,6 +220,17 @@ class CompressCommand extends Command {
             $Filesystem->mirror(ROOT . DS . $sourcePath, WWW_ROOT . $sourcePath);
         }
 
+        foreach ($AngularAssets->getNodeJsModules() as $nodeModuleJsFile) {
+            $sourcePath = dirname($nodeModuleJsFile);
+            $sourceDirName = basename($sourcePath);
+
+            //Create directory //Example: WWW_ROOT . node_modules/popper.js/dist/umd
+            $Filesystem->mkdir(WWW_ROOT . $sourcePath);
+
+            //Copy files
+            $Filesystem->mirror(ROOT . DS . $sourcePath, WWW_ROOT . $sourcePath);
+        }
+
         foreach ($AngularAssets->getNodeCssFiles() as $nodeModuleCssFile) {
             $sourcePath = dirname($nodeModuleCssFile);
             $sourceDirName = basename($sourcePath);

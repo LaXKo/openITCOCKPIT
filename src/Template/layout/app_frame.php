@@ -37,6 +37,7 @@ use itnovum\openITCOCKPIT\Core\AngularJS\AngularAssets;
 
 $AngularAssets = new AngularAssets();
 $scripts = $AngularAssets->getJsFiles();
+$jsModules = $AngularAssets->getJsModules();
 
 $appScripts = [];
 if (ENVIRONMENT === Environments::PRODUCTION) {
@@ -123,6 +124,10 @@ if (ENVIRONMENT === Environments::PRODUCTION) {
 
     foreach ($appScripts as $appScript):
         printf('<script src="/%s%s"></script>%s', $appScript, $fileVersion, PHP_EOL);
+    endforeach;
+
+    foreach ($jsModules as $jsModule):
+        printf('<script type="module" src="/%s%s"></script>%s', $jsModule, $fileVersion, PHP_EOL);
     endforeach;
 
     if (ENVIRONMENT === Environments::PRODUCTION && file_exists(WWW_ROOT . 'dist' . DS . 'compressed_app.css')):
